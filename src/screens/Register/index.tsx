@@ -1,12 +1,15 @@
+import {useState} from 'react';
 import { Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import {useForm} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 import { Button } from '../../components/Button';
 import { ControlledInput } from '../../components/ControlledInput';
 import { Header } from '../../components/Header';
 
-import {schema} from '../../util/validation';
+import {schemaYup} from '../../util/validationSchemaYup';
+import {RegisterDTO} from '../../dto/RegisterDTO';
 
 import { Container,Form } from './styles';
 
@@ -18,11 +21,11 @@ type FormData = {
 }
 
 export function Register() {
-
-  const {control,handleSubmit,formState:{errors}} = useForm<FormData>({
-    resolver:yupResolver(schema)// aqui os dados são validados
+  const {control,handleSubmit,formState} = useForm<FormData>({
+    /* resolver:classValidatorResolver(RegisterDTO) */
+    resolver:yupResolver(schemaYup)
   });
-
+ 
   function handleUserRegister(data:FormData) {
     console.log(data);
   }
@@ -35,36 +38,37 @@ export function Register() {
 
           <Form>
             <ControlledInput
-              name="name"
-              control={control}
               icon="user"
               placeholder="Nome"
-              error={errors.name}     
+              control={control}
+              name="name"
+              error={formState.errors.name}
+
             />
             <ControlledInput
-              name="email"
-              control={control}
               icon="mail"
               placeholder="E-mail"
               keyboardType="email-address"
               autoCapitalize='none'
-              error={errors.email}
+              control={control}
+              name="email"
+              error={formState.errors.email}
             />
             <ControlledInput
-              name="password"
-              control={control}
               icon="lock"
               placeholder="Senha"
               secureTextEntry
-              error={errors.password}
+              control={control}
+              name="password"
+              error={formState.errors.password}
             />
             <ControlledInput
-              name="passwordConfirm"
-              control={control}
               icon="lock"
               placeholder="Confirme a senha"
               secureTextEntry
-              error={errors.passwordConfirm}
+              control={control}
+              name="passwordConfirm"
+              error={formState.errors.passwordConfirm}
             />
 
             <Button

@@ -10,19 +10,17 @@ type Props = InputProps & {
   error?:FieldError;
 }
 
-export const ControlledInput: React.FC<Props> = ({control,name,error,...rest}) => {
+export function ControlledInput({control,name,error,...rest}:Props) {
   return (
     <>
       <Controller
         name={name}
         control={control}
-        render={({field:{onChange,value}})=>(
-          <Input onChangeText={onChange} value={value} {...rest}/>
+        render={({field})=>(
+          <Input onChangeText={field.onChange} value={field.value} {...rest}/>
         )}
       />
-      {
-        error && <Error>{error.message}</Error>
-      }
+      {error && <Error>{error.message}</Error>}
     </>
     );
 }

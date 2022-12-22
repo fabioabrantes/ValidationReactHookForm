@@ -4,7 +4,7 @@ import { TextInputProps } from 'react-native';
 import { Container, IconContainer, InputText } from './styles';
 
 export type InputProps = TextInputProps & {
-  icon: 'user' | 'mail' | 'lock';
+  icon?: 'user' | 'mail' | 'lock';
   value?: string;
 }
 
